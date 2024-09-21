@@ -21,12 +21,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -138,7 +141,13 @@ private fun History(
                 ) {
                     HistoryRecord(
                         record = firstRecord,
+                        containerColor = MaterialTheme.colorScheme.primary,
                     )
+                    LaunchedEffect(firstRecord.id) {
+                        if (listState.firstVisibleItemIndex == 1) {
+                            listState.animateScrollToItem(0)
+                        }
+                    }
                 }
             }
             items(
@@ -158,15 +167,17 @@ private fun History(
 private fun HistoryRecord(
     record: HistoryRecord,
     modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    contentColor: Color = contentColorFor(containerColor),
 ) {
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth(0.95f),
         colors = CardColors(
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            disabledContentColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.5f),
-            disabledContainerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f),
+            containerColor = containerColor,
+            contentColor = contentColor,
+            disabledContainerColor = containerColor.copy(alpha = 0.7f),
+            disabledContentColor = contentColor.copy(alpha = 0.7f),
         ),
     ) {
         Row(
@@ -193,7 +204,7 @@ private fun HistoryRecord(
                 text = record.timestamp.toShortString(),
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.5f),
+                color = contentColor.copy(alpha = 0.7f),
             )
         }
     }
