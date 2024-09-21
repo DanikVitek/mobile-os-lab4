@@ -16,9 +16,6 @@ import kotlinx.serialization.Serializable
 import me.danikvitek.lab4.screen.WebRadioHistory
 import me.danikvitek.lab4.ui.theme.Lab4Theme
 
-@Serializable
-private object WebRadioHistory
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,16 +23,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Lab4Theme {
-                val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavHost(
-                        navController = navController,
-                        startDestination = WebRadioHistory,
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        composable<WebRadioHistory> { WebRadioHistory() }
-                    }
-                }
+                WebRadioHistory()
             }
         }
     }

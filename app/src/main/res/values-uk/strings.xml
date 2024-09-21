@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="toast_error_no_internet_connection">Нема Інтернет з\'єднання</string>
+    <string name="toast_error_response_error">Помилка відповіді WebRadio</string>
+    <string name="history_top_bar_title">Історія WebRadio</string>
+    <string name="yesterday">Учора</string>
+    <string name="artist">Виконавець</string>
+</resources>
