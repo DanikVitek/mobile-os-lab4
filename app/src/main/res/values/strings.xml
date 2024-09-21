@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Lab4</string>
+    <string name="toast_error_no_internet_connection">No Internet Connection</string>
+    <string name="toast_error_response_error">WebRadio Response Error</string>
+    <string name="history_table_title">Title</string>
+    <string name="history_table_artist">Artist</string>
+    <string name="history_table_timestamp">Timestamp</string>
 </resources>
