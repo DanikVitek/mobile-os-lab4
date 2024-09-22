@@ -15,15 +15,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class RetrofitModule {
-    private val webRadioService: WebRadioService by lazy {
+    @get:Provides
+    @get:Singleton
+    val webRadioService: WebRadioService by lazy {
         Retrofit.Builder()
             .baseUrl("https://webradio.io/api/")
             .addConverterFactory(Json.asConverterFactory(MediaType.get("application/json; charset=UTF8")))
             .build()
             .create<WebRadioService>()
     }
-
-    @Provides
-    @Singleton
-    fun provideWebRadioService(): WebRadioService = webRadioService
 }
