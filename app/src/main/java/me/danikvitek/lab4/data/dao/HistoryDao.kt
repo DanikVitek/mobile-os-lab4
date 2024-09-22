@@ -15,5 +15,5 @@ interface HistoryDao {
     suspend fun addRecord(title: String, artist: String, timestamp: Date = Date())
 
     @Query("SELECT * FROM history ORDER BY timestamp DESC LIMIT 1")
-    suspend fun getLastRecord(): HistoryRecord
+    suspend fun getLastRecord(): HistoryRecord?
 }

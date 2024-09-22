@@ -25,17 +25,16 @@ import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
 sealed interface Status {
-    @Suppress("REDUNDANT_MODIFIER")
-    abstract sealed class WithHistory : Status {
-        abstract val history: Flow<List<HistoryRecord>>
+    sealed interface WithHistory : Status {
+        val history: Flow<List<HistoryRecord>>
     }
 
     data object Initializing : Status
-    data class Success(override val history: Flow<List<HistoryRecord>>) : Status, WithHistory()
+    data class Success(override val history: Flow<List<HistoryRecord>>) : Status, WithHistory
     data class Error(
         val error: ErrorVariant,
         override val history: Flow<List<HistoryRecord>>,
-    ) : Status, WithHistory()
+    ) : Status, WithHistory
 }
 
 enum class ErrorVariant {
@@ -49,8 +48,7 @@ class HistoryViewModel @Inject constructor(
     private val historyDao: HistoryDao,
     @ApplicationContext private val appContext: Context,
     private val withTransaction: WithTransaction,
-
-    ) : ViewModel() {
+) : ViewModel() {
     private val _status: MutableStateFlow<Status> = MutableStateFlow(Status.Initializing)
     val status: StateFlow<Status> = _status.asStateFlow()
 
@@ -126,7 +124,7 @@ class HistoryViewModel @Inject constructor(
                     }
                 }
 
-                delay(20.seconds)
+                delay(RETRY_RATE)
             }
         }
     }
@@ -149,7 +147,12 @@ class HistoryViewModel @Inject constructor(
 
     private suspend fun addRecord(title: String, artist: String) = withTransaction {
         val lastRecord = historyDao.getLastRecord()
-        if (lastRecord.title == title && lastRecord.artist == artist) return@withTransaction
+        if (lastRecord != null && lastRecord.title == title && lastRecord.artist == artist)
+            return@withTransaction
         historyDao.addRecord(title, artist)
+    }
+
+    companion object {
+        private val RETRY_RATE = 20.seconds
     }
 }

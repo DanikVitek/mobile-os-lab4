@@ -1,11 +1,19 @@
 package me.danikvitek.lab4.util
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+
 sealed class BoundaryException : Exception() {
     class Break : BoundaryException()
     class Continue : BoundaryException()
 }
 
+@OptIn(ExperimentalContracts::class)
 inline fun loop(crossinline body: Boundary.() -> Unit) {
+    contract {
+        callsInPlace(body, InvocationKind.AT_LEAST_ONCE)
+    }
     while (true) {
         try {
             Boundary.body()
@@ -18,7 +26,11 @@ inline fun loop(crossinline body: Boundary.() -> Unit) {
     }
 }
 
+@OptIn(ExperimentalContracts::class)
 suspend inline fun loopSuspending(crossinline body: suspend Boundary.() -> Unit) {
+    contract {
+        callsInPlace(body, InvocationKind.AT_LEAST_ONCE)
+    }
     while (true) {
         try {
             Boundary.body()

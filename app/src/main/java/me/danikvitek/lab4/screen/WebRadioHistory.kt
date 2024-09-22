@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -26,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,6 +49,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Date
+import kotlin.random.Random
 
 @Composable
 fun WebRadioHistory(
@@ -123,7 +122,7 @@ private fun History(
 ) {
     val listState = rememberLazyListState()
 
-    val visibleState = remember { MutableTransitionState(false) }
+    val visibleState = MutableTransitionState(false)
     visibleState.targetState = true
 
     LazyColumn(
@@ -134,7 +133,7 @@ private fun History(
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
         history.getOrNull(0)?.let { firstRecord ->
-            item(key = firstRecord.id, contentType = firstRecord.javaClass) {
+            item(key = firstRecord.id) {
                 AnimatedVisibility(
                     visibleState = visibleState,
                     enter = slideInVertically { -it } + expandVertically(),
@@ -153,7 +152,6 @@ private fun History(
             items(
                 items = history.subList(1, history.size),
                 key = { it.id },
-                contentType = { it.javaClass }
             ) { record ->
                 HistoryRecord(
                     record = record,
@@ -188,7 +186,7 @@ private fun HistoryRecord(
             Column(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 16.dp)
-                    .widthIn(max = 235.dp),
+                    .weight(1f),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Text(
@@ -202,6 +200,7 @@ private fun HistoryRecord(
             }
             Text(
                 text = record.timestamp.toShortString(),
+                textAlign = TextAlign.Right,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(horizontal = 16.dp),
                 color = contentColor.copy(alpha = 0.7f),
@@ -261,10 +260,15 @@ private class WebRadioHistoryPreviewProvider : PreviewParameterProvider<List<His
             val id = it.toLong() + 1
             HistoryRecord(
                 id = id,
-                title = "Title $id",
+                title = randomString(Random.nextInt(10, 100)),
                 artist = "Artist $id",
                 timestamp = Date.from(ZonedDateTime.now().minusDays(it.toLong()).toInstant()),
             )
         }
     )
+
+    private fun randomString(length: Int): String {
+        val chars = sequenceOf('a'..'z', 'A'..'Z', '0'..'9').flatten().toSet() + ' '
+        return List(length) { chars.random() }.joinToString("")
+    }
 }
