@@ -146,8 +146,8 @@ class HistoryViewModel @Inject constructor(
     }
 
     private suspend fun addRecord(title: String, artist: String) = withTransaction {
-        val lastRecord = historyDao.getLastRecord()
-        if (lastRecord != null && lastRecord.title == title && lastRecord.artist == artist)
+        val lastRecord: HistoryRecord? = historyDao.getLastRecord()
+        if (lastRecord?.let { it.title == title && it.artist == artist } == true)
             return@withTransaction
         historyDao.addRecord(title, artist)
     }
