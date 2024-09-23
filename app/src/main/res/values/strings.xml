@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Lab4</string>
-    <string name="toast_error_no_internet_connection">No Internet Connection</string>
-    <string name="toast_error_response_error">WebRadio Response Error</string>
+    <string name="toast_no_internet_connection">No Internet Connection</string>
+    <string name="toast_response_error">WebRadio Response Error</string>
     <string name="history_top_bar_title">WebRadio History</string>
     <string name="yesterday">Yesterday</string>
     <string name="artist">Artist</string>

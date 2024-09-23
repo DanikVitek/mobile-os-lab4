@@ -76,8 +76,8 @@ private fun WebRadioHistory(status: Status, modifier: Modifier = Modifier) {
             if (status is Status.Error) Toast.makeText(
                 LocalContext.current,
                 when (status.error) {
-                    ErrorVariant.NO_INTERNET_CONNECTION -> R.string.toast_error_no_internet_connection
-                    ErrorVariant.RESPONSE_ERROR -> R.string.toast_error_response_error
+                    ErrorVariant.NO_INTERNET_CONNECTION -> R.string.toast_no_internet_connection
+                    ErrorVariant.RESPONSE_ERROR -> R.string.toast_response_error
                 },
                 Toast.LENGTH_SHORT,
             ).show()
