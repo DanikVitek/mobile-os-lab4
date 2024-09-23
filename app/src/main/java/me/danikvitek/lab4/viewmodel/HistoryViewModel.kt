@@ -140,13 +140,13 @@ class HistoryViewModel @Inject constructor(
             ?: return false
 
         val hasCellular = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-        Log.i(TAG, "hasCellular: $hasCellular")
+        Log.d(TAG, "hasCellular: $hasCellular")
         val hasWifi = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-        Log.i(TAG, "hasWifi: $hasWifi")
+        Log.d(TAG, "hasWifi: $hasWifi")
         val hasEthernet = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
-        Log.i(TAG, "hasEthernet: $hasEthernet")
+        Log.d(TAG, "hasEthernet: $hasEthernet")
 
-        return (hasCellular || hasWifi || hasEthernet).also { Log.i(TAG, "=> isOnline: $it") }
+        return (hasCellular || hasWifi || hasEthernet).also { Log.d(TAG, "=> isOnline: $it") }
     }
 
     private suspend fun addRecord(title: String, artist: String) = withTransaction {
