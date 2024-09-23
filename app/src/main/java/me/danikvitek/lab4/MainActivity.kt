@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Lab4Theme {
                 val viewModel: HistoryViewModel by viewModels()
-                WebRadioHistory(viewModel = viewModel)
+                WebRadioHistory(viewModel)
             }
         }
     }

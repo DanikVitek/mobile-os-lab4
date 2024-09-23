@@ -52,8 +52,8 @@ import kotlin.random.Random
 
 @Composable
 fun WebRadioHistory(
-    modifier: Modifier = Modifier,
     viewModel: HistoryViewModel,
+    modifier: Modifier = Modifier,
 ) {
     val status by viewModel.status.collectAsState()
     WebRadioHistory(
