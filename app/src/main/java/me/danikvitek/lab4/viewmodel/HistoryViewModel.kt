@@ -3,6 +3,7 @@ package me.danikvitek.lab4.viewmodel
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -139,10 +140,13 @@ class HistoryViewModel @Inject constructor(
             ?: return false
 
         val hasCellular = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+        Log.i(TAG, "hasCellular: $hasCellular")
         val hasWifi = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        Log.i(TAG, "hasWifi: $hasWifi")
         val hasEthernet = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+        Log.i(TAG, "hasEthernet: $hasEthernet")
 
-        return hasCellular || hasWifi || hasEthernet
+        return (hasCellular || hasWifi || hasEthernet).also { Log.i(TAG, "=> isOnline: $it") }
     }
 
     private suspend fun addRecord(title: String, artist: String) = withTransaction {
@@ -153,6 +157,7 @@ class HistoryViewModel @Inject constructor(
     }
 
     companion object {
+        private const val TAG = "HistoryViewModel"
         private val RETRY_RATE = 20.seconds
     }
 }
