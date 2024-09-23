@@ -66,7 +66,6 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.hilt.android)
-    implementation(libs.hilt.navigation.compose)
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.kotlinx.serialization)
     testImplementation(libs.junit)

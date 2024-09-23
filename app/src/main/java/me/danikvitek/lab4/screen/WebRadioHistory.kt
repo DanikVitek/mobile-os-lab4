@@ -35,7 +35,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import me.danikvitek.lab4.R
 import me.danikvitek.lab4.data.entity.HistoryRecord
 import me.danikvitek.lab4.ui.theme.Lab4Theme
@@ -54,7 +53,7 @@ import kotlin.random.Random
 @Composable
 fun WebRadioHistory(
     modifier: Modifier = Modifier,
-    viewModel: HistoryViewModel = hiltViewModel(),
+    viewModel: HistoryViewModel,
 ) {
     val status by viewModel.status.collectAsState()
     WebRadioHistory(
