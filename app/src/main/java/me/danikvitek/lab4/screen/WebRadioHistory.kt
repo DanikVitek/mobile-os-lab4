@@ -88,6 +88,7 @@ private fun WebRadioHistory(status: Status, modifier: Modifier = Modifier) {
 private fun WebRadioHistory(
     history: List<HistoryRecord>,
     modifier: Modifier = Modifier,
+    animateHistory: Boolean = true,
 ) {
     Scaffold(
         modifier = modifier,
@@ -110,6 +111,7 @@ private fun WebRadioHistory(
         History(
             history = history,
             modifier = Modifier.padding(innerPadding),
+            animateHistory = animateHistory,
         )
     }
 }
@@ -117,11 +119,12 @@ private fun WebRadioHistory(
 @Composable
 private fun History(
     history: List<HistoryRecord>,
+    animateHistory: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val listState = rememberLazyListState()
 
-    val visibleState = MutableTransitionState(false)
+    val visibleState = MutableTransitionState(initialState = !animateHistory)
     visibleState.targetState = true
 
     LazyColumn(
@@ -233,10 +236,7 @@ private fun WebRadioHistoryPreview(
     @PreviewParameter(WebRadioHistoryPreviewProvider::class) history: List<HistoryRecord>,
 ) {
     Lab4Theme {
-        WebRadioHistory(
-            history = history,
-            modifier = Modifier.padding()
-        )
+        WebRadioHistory(history = history, animateHistory = false)
     }
 }
 
