@@ -255,19 +255,27 @@ private class WebRadioHistoryPreviewProvider : PreviewParameterProvider<List<His
                 artist = "Artist 2",
             ),
         ),
-        List(15) {
-            val id = it.toLong() + 1
+        List(15) { idx ->
+            val id = idx.toLong() + 1
             HistoryRecord(
                 id = id,
                 title = randomString(Random.nextInt(10, 100)),
-                artist = "Artist $id",
-                timestamp = Date.from(ZonedDateTime.now().minusDays(it.toLong()).toInstant()),
+                artist = randomString(Random.nextInt(10, 50)),
+                timestamp = Date.from(ZonedDateTime.now().minusDays(idx.toLong()).toInstant()),
             )
         }
     )
+    override val count: Int = 3
 
-    private fun randomString(length: Int): String {
-        val chars = sequenceOf('a'..'z', 'A'..'Z', '0'..'9').flatten().toSet() + ' '
-        return List(length) { chars.random() }.joinToString("")
+    companion object {
+        private val chars = buildSet(capacity = 26 + 26 + 10 + 1) {
+            addAll('a'..'z')
+            addAll('A'..'Z')
+            addAll('0'..'9')
+            add(' ')
+        }
+
+        private fun randomString(length: Int): String =
+            generateSequence { chars.random() }.take(length).joinToString("")
     }
 }
